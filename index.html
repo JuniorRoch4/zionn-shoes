@@ -255,6 +255,7 @@
   /* ---------- Secondary banner (largo, abaixo dos produtos) ---------- */
   .mid-banner{width:100%; overflow:hidden;}
   .mid-banner-media{width:100%; aspect-ratio:1710/465; object-fit:cover; display:block;}
+  @media (max-width:640px){ .mid-banner-media{aspect-ratio:2/1;} }
 
   /* ---------- Reviews (feedback de clientes / avaliações do Google) ---------- */
   .reviews{padding:70px 0 90px;}
@@ -532,7 +533,10 @@
 
 <!-- BANNER SECUNDÁRIO — abaixo dos produtos -->
 <section class="mid-banner">
-  <img class="mid-banner-media" src="media/banner-secundario.webp" alt="Banner promocional" loading="lazy" decoding="async">
+  <picture>
+    <source media="(max-width:640px)" srcset="media/banner-secundario-mobile.jpg">
+    <img class="mid-banner-media" src="media/banner-secundario.webp" alt="Banner promocional" loading="lazy" decoding="async">
+  </picture>
 </section>
 
 <!-- TODOS OS PRODUTOS — mesma arquitetura de card de "Mais vendidos" -->
@@ -667,7 +671,10 @@
 
 <!-- BANNER TERCIÁRIO — abaixo de "Todos os produtos" -->
 <section class="mid-banner">
-  <img class="mid-banner-media" src="media/banner-terciario.webp" alt="Democrata — Conforto e praticidade" loading="lazy" decoding="async">
+  <picture>
+    <source media="(max-width:640px)" srcset="media/banner-terciario-mobile.png">
+    <img class="mid-banner-media" src="media/banner-terciario.webp" alt="Democrata — Conforto e praticidade" loading="lazy" decoding="async">
+  </picture>
 </section>
 
 <!-- AVALIAÇÕES — feedback de clientes / avaliações do Google -->

@@ -53,12 +53,19 @@
     z-index:300;
   }
 
-  /* ---------- Topbar ---------- */
+  /* ---------- Topbar (carrossel de frases promocionais) ---------- */
   .topbar{
     background:var(--ink); color:#fff; font-size:12.5px; text-align:center;
-    padding:9px 12px; letter-spacing:0.02em;
+    letter-spacing:0.02em; position:relative; overflow:hidden; height:38px;
   }
-  .topbar strong{color:var(--orange); font-weight:700;}
+  .topbar-track{position:relative; width:100%; height:100%;}
+  .topbar-slide{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    padding:0 12px; font-weight:600; opacity:0; transform:translateX(28px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .topbar-slide.is-active{opacity:1; transform:translateX(0);}
+  .topbar-slide.is-exit{opacity:0; transform:translateX(-28px);}
 
   /* ---------- Header ---------- */
   header{
@@ -89,14 +96,16 @@
   }
   .mega-col{min-width:130px;}
   .mega-col p.head{font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;}
-  .mega-col a{display:block; font-size:13.5px; font-weight:500; padding:6px 0; color:var(--ink);}
-  .mega-col a:hover{color:var(--orange-dark);}
+  .mega-col a{display:block; font-size:13.5px; font-weight:500; padding:6px 0; color:var(--ink); transition:color .2s ease, transform .2s ease;}
+  .mega-col a:hover{color:var(--orange-dark); transform:translateX(4px);}
 
   .nav-right{display:flex; align-items:center; gap:16px;}
   .icon-btn{
     width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
     border:1px solid var(--line); position:relative;
+    transition:border-color .25s ease, transform .25s ease, background .25s ease;
   }
+  .icon-btn:hover{border-color:var(--orange); background:var(--orange-tint); transform:translateY(-3px);}
   .icon-btn .badge{
     position:absolute; top:-3px; right:-3px; width:16px; height:16px; border-radius:50%;
     background:var(--orange); color:#fff; font-size:9.5px; font-weight:700;
@@ -105,7 +114,9 @@
   .nav-cta{
     background:var(--orange); color:#fff; font-weight:600; font-size:13px;
     padding:10px 18px; border-radius:100px; display:flex; align-items:center; gap:6px;
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
   }
+  .nav-cta:hover{background:var(--orange-dark); transform:translateY(-3px); box-shadow:0 10px 20px -8px rgba(232,103,46,.6);}
   @media (max-width:960px){ .nav-links{display:none;} }
   @media (max-width:560px){
     nav{padding:14px 20px;}
@@ -119,7 +130,9 @@
     .burger{
       display:flex; align-items:center; justify-content:center;
       width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+      transition:border-color .25s ease, transform .25s ease, background .25s ease;
     }
+    .burger:hover{border-color:var(--orange); background:var(--orange-tint); transform:translateY(-3px);}
   }
   .mobile-panel{
     position:fixed; inset:0; z-index:200;
@@ -138,7 +151,11 @@
   .mobile-panel-sheet a{
     padding:14px 4px; font-size:16px; font-weight:600; border-bottom:1px solid var(--line);
   }
-  .mobile-close{width:34px; height:34px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center;}
+  .mobile-close{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    transition:border-color .25s ease, transform .25s ease, background .25s ease;
+  }
+  .mobile-close:hover{border-color:var(--orange); background:var(--orange-tint); transform:rotate(90deg);}
 
   /* ---------- Hero banner (single, full-width — scales with viewport, no crop) ---------- */
   .hero-banner{
@@ -153,56 +170,135 @@
     display:block;
   }
 
-  /* ---------- Category tiles (Masculino / Feminino — matches reference layout) ---------- */
-  .cats{padding:56px 0 20px;}
-  .cat-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
-  .cat-card{position:relative; border-radius:18px; overflow:hidden;}
-  .cat-card .ph{aspect-ratio:4/5; border-radius:18px;}
-  .cat-media{
-    width:100%; aspect-ratio:4/5; border-radius:18px;
-    object-fit:cover; display:block; background:var(--stone);
+  /* ---------- Info strip (benefícios rápidos — desconto / parcelamento / frete) ---------- */
+  .info-strip{padding:44px 0 0;}
+  .info-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .info-card{
+    display:flex; gap:14px; align-items:flex-start;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:18px 20px;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .3s ease;
   }
-  @media (max-width:700px){
-    .cat-grid{grid-template-columns:1fr;}
-    .cat-card .ph{aspect-ratio:auto; height:64vh; max-height:520px;}
-    .cat-media{aspect-ratio:auto; height:64vh; max-height:520px;}
+  .info-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 34px -16px rgba(232,103,46,.45);
+    border-color:var(--orange);
   }
+  .info-icon{
+    width:44px; height:44px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg, var(--orange), var(--orange-dark));
+    display:flex; align-items:center; justify-content:center; color:#fff;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .info-card:hover .info-icon{transform:scale(1.12) rotate(-6deg);}
+  .info-card h3{font-size:15px; margin-bottom:4px;}
+  .info-card p{font-size:12.5px; color:var(--ink-soft); line-height:1.5;}
+  @media (max-width:900px){ .info-grid{grid-template-columns:1fr;} }
 
-  /* ---------- Product grid ---------- */
-  .products{padding:70px 0 90px;}
+  /* ---------- Best sellers (Mais vendidos — 4 produtos lado a lado, preço/pix/parcelamento/comprar) ---------- */
+  .bestsellers{padding:70px 0 90px;}
   .sec-label{font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange-dark); display:block; margin-bottom:8px;}
-  .prod-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:36px; flex-wrap:wrap; gap:16px;}
-  .prod-head h2{font-size:clamp(24px,3.2vw,32px);}
-  .prod-tabs{display:flex; gap:10px;}
-  .prod-tab{
-    font-size:13px; font-weight:600; padding:9px 18px; border-radius:100px; border:1px solid var(--line); color:var(--ink-soft);
+  .bs-head{margin-bottom:36px;}
+  .bs-head h2{font-size:clamp(24px,3.2vw,32px);}
+  .bs-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+  .bs-card{
+    border-radius:16px; position:relative;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
   }
-  .prod-tab.active{background:var(--ink); color:#fff; border-color:var(--ink);}
-  .prod-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
-  .prod-card .ph{aspect-ratio:3/4; border-radius:14px; margin-bottom:14px;}
-  .prod-card .name{font-size:14px; font-weight:600; margin-bottom:4px; color:#B9B7AC;}
-  .prod-card .price{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#B9B7AC;}
-  @media (max-width:900px){ .prod-grid{grid-template-columns:1fr 1fr;} }
+  .bs-card:hover{
+    transform:translateY(-20px) scale(1.08);
+    box-shadow:0 36px 60px -10px rgba(232,103,46,.75), 0 14px 26px -6px rgba(232,103,46,.55);
+    z-index:2;
+  }
+  .bs-card .ph{aspect-ratio:3/4; border-radius:14px; margin-bottom:14px;}
+  .bs-media{width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:14px; margin-bottom:14px; display:block;}
+  .bs-name{font-size:14px; font-weight:600; margin-bottom:6px;}
+  .bs-tag{font-size:12px; font-weight:700; color:var(--orange-dark); margin-bottom:6px;}
+  .bs-price-row{display:flex; align-items:baseline; gap:8px; margin-bottom:2px; flex-wrap:wrap;}
+  .bs-price{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px;}
+  .bs-price-old{font-size:13px; color:var(--ink-soft); text-decoration:line-through;}
+  .bs-pix{font-size:13px; font-weight:600; margin-bottom:2px;}
+  .bs-install{font-size:12.5px; color:var(--orange-dark); margin-bottom:14px;}
+  .bs-buy{
+    width:100%; display:flex; align-items:center; justify-content:center; gap:8px;
+    background:linear-gradient(90deg, var(--orange), var(--orange-dark)); color:#fff; border:none;
+    font-weight:700; font-size:13px; letter-spacing:0.03em; text-transform:uppercase;
+    padding:13px 0; border-radius:10px; cursor:pointer; font-family:inherit;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, background .25s ease;
+  }
+  .bs-buy:hover{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 14px 26px -8px rgba(232,103,46,.65);
+    background:linear-gradient(90deg, var(--orange-dark), var(--orange));
+  }
+  .bs-buy svg{transition:transform .25s ease;}
+  .bs-buy:hover svg{transform:translateX(3px);}
+  @media (max-width:900px){ .bs-grid{grid-template-columns:1fr 1fr;} }
+  .all-products{padding:70px 0 90px;}
 
-  /* ---------- Secondary banner (single wide — matches reference's 3rd tile) ---------- */
-  .mid-banner{padding:0 0 90px;}
-  .mid-banner .ph{aspect-ratio:21/7; border-radius:18px;}
+  /* ---------- Secondary banner (largo, abaixo dos produtos) ---------- */
+  .mid-banner{width:100%; overflow:hidden;}
+  .mid-banner-media{width:100%; aspect-ratio:1710/465; object-fit:cover; display:block;}
+
+  /* ---------- Reviews (feedback de clientes / avaliações do Google) ---------- */
+  .reviews{padding:70px 0 90px;}
+  .reviews-head{margin-bottom:30px;}
+  .reviews-head h2{font-size:clamp(24px,3.2vw,32px); margin-bottom:10px;}
+  .google-badge{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--ink-soft);}
+  .stars{color:var(--orange); font-size:15px; letter-spacing:2px;}
+  .reviews-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:32px;}
+  .review-card{
+    background:var(--stone); border:1px solid var(--line); border-radius:16px; padding:22px;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .3s ease, background .3s ease;
+  }
+  .review-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 22px 38px -16px rgba(20,20,20,.22);
+    border-color:var(--orange);
+    background:#fff;
+  }
+  .review-top{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
+  .review-avatar{
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:700; font-size:16px; font-family:'Space Grotesk',sans-serif;
+  }
+  .review-name{display:block; font-size:13.5px; font-weight:700;}
+  .review-meta{display:block; font-size:11.5px; color:var(--ink-soft); margin-top:1px;}
+  .review-rating{display:flex; align-items:center; gap:8px; margin-bottom:12px;}
+  .review-rating .stars{font-size:13px;}
+  .review-time{font-size:11.5px; color:var(--ink-soft);}
+  .review-card p{font-size:13.5px; color:var(--ink); line-height:1.6;}
+  .reviews-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1.5px solid var(--ink); border-radius:100px; padding:12px 24px;
+    font-weight:700; font-size:13.5px; color:var(--ink);
+    transition:background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+  }
+  .reviews-cta:hover{
+    background:var(--ink); color:#fff; transform:translateY(-3px);
+  }
+  @media (max-width:900px){ .reviews-grid{grid-template-columns:1fr;} }
 
   /* ---------- Footer (Institucional / Dúvidas / Redes / Newsletter — mirrors reference) ---------- */
-  footer{background:var(--stone); padding-top:60px;}
-  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1.3fr; gap:32px; padding-bottom:44px;}
+  footer{background:var(--stone);}
+  .foot-banner{width:100%; overflow:hidden;}
+  .foot-banner .ph{aspect-ratio:1983/793; border-radius:0;}
+  .foot-banner-media{width:100%; aspect-ratio:1983/793; object-fit:cover; display:block;}
+  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1.3fr; gap:32px; padding-top:60px; padding-bottom:44px;}
   .foot-brand{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
   .foot-brand img{width:26px;height:26px;}
   .foot-brand span{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px;}
   .foot-desc{font-size:13px; color:var(--ink-soft); line-height:1.6; max-width:220px;}
   .foot-col p.head{font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px; color:var(--ink);}
-  .foot-col a{display:block; font-size:13.5px; color:var(--ink-soft); margin-bottom:10px;}
-  .foot-col a:hover{color:var(--ink);}
+  .foot-col a{display:block; font-size:13.5px; color:var(--ink-soft); margin-bottom:10px; transition:color .2s ease, transform .2s ease;}
+  .foot-col a:hover{color:var(--orange-dark); transform:translateX(4px);}
   .foot-news p.head{font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:12px;}
   .foot-news p.sub{font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;}
   .news-form{display:flex; border:1px solid var(--line); border-radius:100px; overflow:hidden; background:#fff;}
   .news-form input{flex:1; border:none; padding:12px 16px; font-size:13px; font-family:inherit; outline:none; background:transparent;}
-  .news-form button{background:var(--ink); color:#fff; font-weight:600; font-size:12.5px; padding:0 20px;}
+  .news-form button{background:var(--ink); color:#fff; font-weight:600; font-size:12.5px; padding:0 20px; transition:background .25s ease;}
+  .news-form button:hover{background:var(--orange-dark);}
   .foot-bar{
     border-top:1px solid var(--line); padding:18px 0; text-align:center;
     font-size:11.5px; color:var(--ink-soft);
@@ -220,7 +316,13 @@
 </head>
 <body>
 
-<div class="topbar">[Substituir] · texto promocional (ex: frete grátis acima de X) · <strong>ver mais</strong></div>
+<div class="topbar">
+  <div class="topbar-track" id="topbarTrack">
+    <span class="topbar-slide is-active">FRETE GRÁTIS NOVA FRIBURGO</span>
+    <span class="topbar-slide">SEM JUROS EM ATÉ 3X NO CARTÃO</span>
+    <span class="topbar-slide">CUPOM 5% NA PRIMEIRA COMPRA</span>
+  </div>
+</div>
 
 <header id="header">
   <nav>
@@ -308,65 +410,318 @@
   <img class="hero-media" src="media/banner-principal.png" alt="Zionn Shoes — Entrega grátis em Nova Friburgo">
 </section>
 
-<!-- CATEGORIAS — Masculino / Feminino lado a lado, sem texto/botão por cima (banners limpos) -->
-<section class="cats wrap">
-  <div class="cat-grid">
-    <a class="cat-card reveal" href="#produtos">
-      <div class="ph"><span>🖼 Foto categoria Masculino</span></div>
-    </a>
-    <a class="cat-card reveal" href="#produtos">
-      <video class="cat-media" autoplay muted loop playsinline preload="metadata">
-        <source src="media/feminino.mp4" type="video/mp4">
-      </video>
-    </a>
-  </div>
-</section>
-
-<!-- GRADE DE PRODUTOS — 4 colunas, igual ao "lançamentos" do site de referência -->
-<section class="products wrap" id="produtos">
-  <div class="prod-head reveal">
-    <div>
-      <span class="sec-label">Lançamentos</span>
-      <h2>Acabaram de chegar</h2>
+<!-- INFO STRIP — benefícios rápidos (desconto / parcelamento / frete) -->
+<section class="info-strip wrap">
+  <div class="info-grid">
+    <div class="info-card reveal">
+      <div class="info-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.5 3H4a1 1 0 0 0-1 1v5.5a2 2 0 0 0 .83 1.5l9.58 9.59a2 2 0 0 0 2.83 0l4.34-4.34a2 2 0 0 0 .01-2.84Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>
+      </div>
+      <div>
+        <h3>Primeira compra com desconto!</h3>
+        <p>Use [CUPOM] e garanta 5% de desconto imediato no seu pedido.</p>
+      </div>
     </div>
-    <div class="prod-tabs" role="tablist" aria-label="Filtrar produtos">
-      <button class="prod-tab active" role="tab" aria-selected="true" data-filter="todos">Todos</button>
-      <button class="prod-tab" role="tab" aria-selected="false" data-filter="masculino">Masculino</button>
-      <button class="prod-tab" role="tab" aria-selected="false" data-filter="feminino">Feminino</button>
+    <div class="info-card reveal">
+      <div class="info-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      </div>
+      <div>
+        <h3>Compre com mais flexibilidade</h3>
+        <p>Parcelamento em até 12x com juros ou 3x sem juros.</p>
+      </div>
     </div>
-  </div>
-  <div class="prod-grid">
-    <div class="prod-card reveal" data-cat="masculino">
-      <div class="ph"><span>🖼 Foto produto 1</span></div>
-      <div class="name">[Nome do modelo]</div>
-      <div class="price">R$ 000,00</div>
-    </div>
-    <div class="prod-card reveal" data-cat="feminino">
-      <div class="ph"><span>🖼 Foto produto 2</span></div>
-      <div class="name">[Nome do modelo]</div>
-      <div class="price">R$ 000,00</div>
-    </div>
-    <div class="prod-card reveal" data-cat="masculino">
-      <div class="ph"><span>🖼 Foto produto 3</span></div>
-      <div class="name">[Nome do modelo]</div>
-      <div class="price">R$ 000,00</div>
-    </div>
-    <div class="prod-card reveal" data-cat="feminino">
-      <div class="ph"><span>🖼 Foto produto 4</span></div>
-      <div class="name">[Nome do modelo]</div>
-      <div class="price">R$ 000,00</div>
+    <div class="info-card reveal">
+      <div class="info-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h1"/><path d="M14 9h4l3 3v5a1 1 0 0 1-1 1h-1"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+      </div>
+      <div>
+        <h3>Condição Especial de Frete</h3>
+        <p>Zionn: frete grátis para Nova Friburgo. Demais regiões, confira o frete no checkout.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- BANNER SECUNDÁRIO — largo, igual ao 3º banner do site de referência (ex: coleção feminina em destaque) -->
-<section class="mid-banner wrap">
-  <div class="ph reveal"><span>🖼 Banner secundário — ex: coleção em destaque</span></div>
+<!-- MAIS VENDIDOS — 4 produtos lado a lado, com preço, pix, parcelamento e botão comprar -->
+<section class="bestsellers wrap">
+  <div class="bs-head reveal">
+    <span class="sec-label">Mais vendidos</span>
+    <h2>Os queridinhos da galera</h2>
+  </div>
+  <div class="bs-grid">
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-1.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-2.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-3.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-4.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER SECUNDÁRIO — abaixo dos produtos -->
+<section class="mid-banner">
+  <img class="mid-banner-media" src="media/banner-secundario.webp" alt="Banner promocional" loading="lazy" decoding="async">
+</section>
+
+<!-- TODOS OS PRODUTOS — mesma arquitetura de card de "Mais vendidos" -->
+<section class="all-products wrap">
+  <div class="bs-head reveal">
+    <span class="sec-label">Catálogo</span>
+    <h2>Todos os produtos</h2>
+  </div>
+  <div class="bs-grid">
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-1.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-2.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-3.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-4.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-1.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-2.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-3.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+    <div class="bs-card reveal">
+      <img class="bs-media" src="media/produto-4.jpg" alt="[Nome do modelo] — sapato masculino" loading="lazy" decoding="async">
+      <div class="bs-name">[Nome do modelo]</div>
+      <div class="bs-tag">-00% OFF</div>
+      <div class="bs-price-row">
+        <span class="bs-price">R$ 000,00</span>
+        <span class="bs-price-old">R$ 000,00</span>
+      </div>
+      <div class="bs-pix">R$ 000,00 com Pix</div>
+      <div class="bs-install">3x de R$ 00,00 sem juros</div>
+      <button class="bs-buy" type="button">
+        Comprar
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER TERCIÁRIO — abaixo de "Todos os produtos" -->
+<section class="mid-banner">
+  <img class="mid-banner-media" src="media/banner-terciario.webp" alt="Democrata — Conforto e praticidade" loading="lazy" decoding="async">
+</section>
+
+<!-- AVALIAÇÕES — feedback de clientes / avaliações do Google -->
+<section class="reviews wrap">
+  <div class="reviews-head reveal">
+    <span class="sec-label">Avaliações</span>
+    <h2>O que nossos clientes dizem</h2>
+    <div class="google-badge">
+      <span class="stars">★★★★★</span>
+      <strong>5,0</strong> · 7 avaliações no Google
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-top">
+        <div class="review-avatar" style="background:#3F7CE0;">B</div>
+        <div>
+          <span class="review-name">Bruna Fernandes dos Santos</span>
+          <span class="review-meta">2 avaliações</span>
+        </div>
+      </div>
+      <div class="review-rating">
+        <span class="stars">★★★★★</span>
+        <span class="review-time">9 meses atrás</span>
+      </div>
+      <p>"Excelente atendimento!"</p>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-top">
+        <div class="review-avatar" style="background:#E8672E;">V</div>
+        <div>
+          <span class="review-name">Victor Hugo Arruda Leite</span>
+          <span class="review-meta">3 avaliações · 1 foto</span>
+        </div>
+      </div>
+      <div class="review-rating">
+        <span class="stars">★★★★★</span>
+        <span class="review-time">3 anos atrás</span>
+      </div>
+      <p>"Atendimento de excelente, espaço muito agradável."</p>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-top">
+        <div class="review-avatar" style="background:#7B5FE0;">D</div>
+        <div>
+          <span class="review-name">Daniella Magalhães</span>
+          <span class="review-meta">2 avaliações</span>
+        </div>
+      </div>
+      <div class="review-rating">
+        <span class="stars">★★★★★</span>
+        <span class="review-time">3 anos atrás</span>
+      </div>
+      <p>"Comprei um tênis pro meu namorado e amei a loja e o atendimento excelente."</p>
+    </div>
+  </div>
+  <a class="reviews-cta reveal" href="https://www.google.com/maps/search/?api=1&query=Zionn+Shoes+R.+Mois%C3%A9s+Am%C3%A9lio+17+Nova+Friburgo+RJ" target="_blank" rel="noopener">
+    Ver todas as avaliações no Google
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+  </a>
 </section>
 
 </main>
 
 <footer>
+
+  <!-- BANNER DO RODAPÉ — full-bleed, preenche 100% da largura da tela -->
+  <section class="foot-banner">
+    <img class="foot-banner-media" src="media/banner-rodape.png" alt="Zionn — Visite nossa loja física, Cadima Shopping, R. Moisés Amélio 17, Nova Friburgo - RJ" loading="lazy" decoding="async">
+  </section>
+
   <div class="wrap foot-grid">
     <div>
       <div class="foot-brand">
@@ -408,6 +763,19 @@
   const header = document.getElementById('header');
   addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 10), { passive: true });
 
+  const topbarSlides = document.querySelectorAll('.topbar-slide');
+  if (topbarSlides.length) {
+    let topbarIdx = 0;
+    setInterval(() => {
+      const current = topbarSlides[topbarIdx];
+      current.classList.remove('is-active');
+      current.classList.add('is-exit');
+      topbarIdx = (topbarIdx + 1) % topbarSlides.length;
+      topbarSlides[topbarIdx].classList.add('is-active');
+      setTimeout(() => current.classList.remove('is-exit'), 500);
+    }, 3000);
+  }
+
   const burgerBtn = document.getElementById('burgerBtn');
   const closeBtn = document.getElementById('mobileCloseBtn');
   const panel = document.getElementById('mobilePanel');
@@ -417,17 +785,6 @@
   closeBtn.addEventListener('click', closePanel);
   panel.addEventListener('click', (e) => { if (e.target === panel) closePanel(); });
   panel.querySelectorAll('a').forEach(a => a.addEventListener('click', closePanel));
-
-  const tabs = document.querySelectorAll('.prod-tab');
-  const cards = document.querySelectorAll('.prod-card');
-  tabs.forEach(tab => tab.addEventListener('click', () => {
-    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
-    tab.classList.add('active'); tab.setAttribute('aria-selected', 'true');
-    const filter = tab.dataset.filter;
-    cards.forEach(card => {
-      card.style.display = (filter === 'todos' || card.dataset.cat === filter) ? '' : 'none';
-    });
-  }));
 
   // Scroll motion: elements fade + rise into view, staggered within each row
   const groups = new Map();

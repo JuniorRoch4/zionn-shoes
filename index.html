@@ -250,6 +250,11 @@
   .bs-buy svg{transition:transform .25s ease;}
   .bs-buy:hover svg{transform:translateX(3px);}
   @media (max-width:900px){ .bs-grid{grid-template-columns:1fr 1fr;} }
+  @media (hover:none){
+    .bs-card:hover{transform:none; box-shadow:none; z-index:auto;}
+    .bs-buy:hover{transform:none; box-shadow:none; background:linear-gradient(90deg, var(--orange), var(--orange-dark));}
+    .bs-buy:hover svg{transform:none;}
+  }
   .all-products{padding-top:70px; padding-bottom:90px;}
 
   /* ---------- Secondary banner (largo, abaixo dos produtos) ---------- */

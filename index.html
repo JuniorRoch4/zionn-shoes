@@ -174,7 +174,7 @@
   }
 
   /* ---------- Info strip (benefícios rápidos — desconto / parcelamento / frete) ---------- */
-  .info-strip{padding:44px 0 0;}
+  .info-strip{padding-top:44px;}
   .info-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
   .info-card{
     min-width:0; display:flex; gap:14px; align-items:flex-start;
@@ -212,7 +212,7 @@
   }
 
   /* ---------- Best sellers (Mais vendidos — 4 produtos lado a lado, preço/pix/parcelamento/comprar) ---------- */
-  .bestsellers{padding:70px 0 90px;}
+  .bestsellers{padding-top:70px; padding-bottom:90px;}
   .sec-label{font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange-dark); display:block; margin-bottom:8px;}
   .bs-head{margin-bottom:36px;}
   .bs-head h2{font-size:clamp(24px,3.2vw,32px);}
@@ -250,7 +250,7 @@
   .bs-buy svg{transition:transform .25s ease;}
   .bs-buy:hover svg{transform:translateX(3px);}
   @media (max-width:900px){ .bs-grid{grid-template-columns:1fr 1fr;} }
-  .all-products{padding:70px 0 90px;}
+  .all-products{padding-top:70px; padding-bottom:90px;}
 
   /* ---------- Secondary banner (largo, abaixo dos produtos) ---------- */
   .mid-banner{width:100%; overflow:hidden;}
@@ -258,7 +258,7 @@
   @media (max-width:640px){ .mid-banner-media{aspect-ratio:2/1;} }
 
   /* ---------- Reviews (feedback de clientes / avaliações do Google) ---------- */
-  .reviews{padding:70px 0 90px;}
+  .reviews{padding-top:70px; padding-bottom:90px;}
   .reviews-head{margin-bottom:30px;}
   .reviews-head h2{font-size:clamp(24px,3.2vw,32px); margin-bottom:10px;}
   .google-badge{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--ink-soft);}
